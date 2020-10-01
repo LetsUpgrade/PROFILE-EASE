@@ -33,67 +33,69 @@ git push origin branch-name
 * [Reddit API](https://www.reddit.com/dev/api/)
 * [Line API](https://developers.line.biz/en/)
 
- Their are a lot of social media platforms but sadly due to privacy issues these do not provide free APIs.
+Their are a lot of social media platforms but sadly due to privacy issues these do not provide free APIs.
  
- ## Design
+## Design
  ![Design](https://user-images.githubusercontent.com/22274195/94824571-cecef180-0422-11eb-8c58-643866e0de63.png)
  
- ## Reddit 
+## Reddit 
  We looked into what people are doing on reddit the most & condensed it down to 3 functions
- #### About User
+#### About User
  ```
 GET https://oauth.reddit.com/api/v1/me
+
  ```
- ##### Request
- ``` ```
- | header        	| Value               	|
+##### Request
+| header        	| Value               	|
 |---------------	|---------------------	|
-| authorization 	| <user-access-token> 	|
+| authorization 	| user-access-token 	  |
 | content-type  	| application/json    	|
 
- ##### Response
- ``` ```
- | attribute        	| Value               	|
+##### Response
+| attribute        	| Value             |
 |---------------	|---------------------	|
 | icon_img 	| <user-image> 	|
-| display_name_prefixed  	| <user-display-name>    	|
-| public_description  	| <user-public-description>    	|
+| display_name_prefixed  	| user-display-name    	|
+| public_description  	| user-public-description    	|
 
 ### Top Posts
  ```
 GET https://oauth.reddit.com/best
+
  ```
  ##### Request
- ``` ```
- | header        	| Value               	|
+ 
+| header        	| Value               	|
 |---------------	|---------------------	|
-| authorization 	| <user-access-token> 	|
+| authorization 	| user-access-token 	|
 | content-type  	| application/json    	|
 
- ##### Response
- ``` ```
- | attribute        	| Value               	|
+##### Response
+
+| attribute        	| Value               	|
 |---------------	|---------------------	|
-| children	| <feed-posts> 	|
+| children	| feed-posts 	|
+ 
 ### Direct Messages
+ 
  ```
-GET https://oauth.reddit.com/message/inbox
+ GET https://oauth.reddit.com/message/inbox
  ```
+ 
+##### Request
 
- ##### Request
- ``` ```
- | header        	| Value               	|
+| header        	| Value               	|
 |---------------	|---------------------	|
-| authorization 	| <user-access-token> 	|
+| authorization 	| user-access-token 	|
 | content-type  	| application/json    	|
 
- ##### Response
- ``` ```
- | attribute        	| Value               	|
+##### Response
+ 
+| attribute        	| Value               	|
 |---------------	|---------------------	|
-| author	| <message-sender> 	|
-| subject	| <message-subject> 	|
-| body	| <message-body> 	|
+| author	| message-sender 	|
+| subject	| message-subject  	|
+| body	| message-body 	|
 
 
 
