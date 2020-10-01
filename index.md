@@ -1,3 +1,4 @@
+![Profile Ease](https://user-images.githubusercontent.com/22274195/94831951-f5912600-042a-11eb-912c-f11c20315c9d.png)
 # Profile Ease
 Profile Ease will be a chrome extension which seeks to reduce the time users spend browsing social media websites. Users moslty browse a lot of content everytime they were just there to check in some notifications.
 
