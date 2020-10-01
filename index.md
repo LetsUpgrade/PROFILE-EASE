@@ -1,37 +1,101 @@
-## Welcome to GitHub Pages
+# Profile Ease
+Profile Ease will be a chrome extension which seeks to reduce the time users spend browsing social media websites. Users moslty browse a lot of content everytime they were just there to check in some notifications.
 
-You can use the [editor on GitHub](https://github.com/LetsUpgrade/PROFILE-EASE/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+# Docs
+## Getting started
+* Fork this repository (Click the Fork button in the top right of this page, click your Profile Image)
+* Clone your fork down to your local machine
 
 ```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+git clone https://github.com/your-username/repository_name.git
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+* Create a branch
 
-### Jekyll Themes
+```markdown
+git checkout -b branch-name
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/LetsUpgrade/PROFILE-EASE/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+* Make your changes (choose from any task below)
+* Commit and push
 
-### Support or Contact
+```markdown
+git add .
+git commit -m 'Commit message'
+git push origin branch-name
+```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+* Create a new pull request from your forked repository (Click the `New Pull Request` button located at the top of your repo)
+* Wait for your PR review and merge approval!
+
+## APIs used 
+* [Twitter API](https://developer.twitter.com/en/docs)
+* [Reddit API](https://www.reddit.com/dev/api/)
+* [Line API](https://developers.line.biz/en/)
+
+ Their are a lot of social media platforms but sadly due to privacy issues these do not provide free APIs.
+ 
+ ## Design
+ ![Design](https://user-images.githubusercontent.com/22274195/94824571-cecef180-0422-11eb-8c58-643866e0de63.png)
+ 
+ ## Reddit 
+ We looked into what people are doing on reddit the most & condensed it down to 3 functions
+ #### About User
+ ```
+GET https://oauth.reddit.com/api/v1/me
+ ```
+ ##### Request
+ ``` ```
+ | header        	| Value               	|
+|---------------	|---------------------	|
+| authorization 	| <user-access-token> 	|
+| content-type  	| application/json    	|
+
+ ##### Response
+ ``` ```
+ | attribute        	| Value               	|
+|---------------	|---------------------	|
+| icon_img 	| <user-image> 	|
+| display_name_prefixed  	| <user-display-name>    	|
+| public_description  	| <user-public-description>    	|
+
+### Top Posts
+ ```
+GET https://oauth.reddit.com/best
+ ```
+ ##### Request
+ ``` ```
+ | header        	| Value               	|
+|---------------	|---------------------	|
+| authorization 	| <user-access-token> 	|
+| content-type  	| application/json    	|
+
+ ##### Response
+ ``` ```
+ | attribute        	| Value               	|
+|---------------	|---------------------	|
+| children	| <feed-posts> 	|
+### Direct Messages
+ ```
+GET https://oauth.reddit.com/message/inbox
+ ```
+
+ ##### Request
+ ``` ```
+ | header        	| Value               	|
+|---------------	|---------------------	|
+| authorization 	| <user-access-token> 	|
+| content-type  	| application/json    	|
+
+ ##### Response
+ ``` ```
+ | attribute        	| Value               	|
+|---------------	|---------------------	|
+| author	| <message-sender> 	|
+| subject	| <message-subject> 	|
+| body	| <message-body> 	|
+
+
+
+
+ 
