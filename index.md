@@ -39,26 +39,31 @@ Their are a lot of social media platforms but sadly due to privacy issues these 
  ![Design](https://user-images.githubusercontent.com/22274195/94824571-cecef180-0422-11eb-8c58-643866e0de63.png)
  
 ## Reddit 
+
  We looked into what people are doing on reddit the most & condensed it down to 3 functions
+ 
 #### About User
- ```
-GET https://oauth.reddit.com/api/v1/me
 
  ```
+GET https://oauth.reddit.com/api/v1/me
+```
 ##### Request
+
 | header        	| Value               	|
 |---------------	|---------------------	|
-| authorization 	| user-access-token 	  |
+| authorization 	| user-access-token 	|
 | content-type  	| application/json    	|
 
 ##### Response
+
 | attribute        	| Value             |
 |---------------	|---------------------	|
-| icon_img 	| <user-image> 	|
+| icon_img 	| user-image 	|
 | display_name_prefixed  	| user-display-name    	|
 | public_description  	| user-public-description    	|
 
 ### Top Posts
+
  ```
 GET https://oauth.reddit.com/best
 
