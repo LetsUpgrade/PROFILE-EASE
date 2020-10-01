@@ -46,21 +46,23 @@ Their are a lot of social media platforms but sadly due to privacy issues these 
 
  ```
 GET https://oauth.reddit.com/api/v1/me
+
 ```
 ##### Request
 
-| header        	| Value               	|
-|---------------	|---------------------	|
-| authorization 	| user-access-token 	|
-| content-type  	| application/json    	|
+ | header        	| Value               	|
+ |---------------	|---------------------	|
+ | authorization 	| user-access-token 	|
+ | content-type  	| application/json    	|
 
 ##### Response
 
-| attribute        	| Value             |
-|---------------	|---------------------	|
-| icon_img 	| user-image 	|
-| display_name_prefixed  	| user-display-name    	|
-| public_description  	| user-public-description    	|
+ | attribute        	| Value             |
+ |---------------	|---------------------	|
+ | icon_img 	| user-image 	|
+ | display_name_prefixed  	| user-display-name    	|
+ | public_description  	| user-public-description    	|
+ | karma  	| user-karma    	|
 
 ### Top Posts
 
