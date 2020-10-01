@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<!-- authors: Puneet Bhatt, Gauri Bhute -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit API</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js" 
+  integrity="sha512-BHtomM5XDcUy7tDNcrcX1Eh0RogdWiMdXl3wJcKB3PFekXb3l5aDzymaTher61u6vEZySnoC/SAj2Y/p918Y3w=="
+   crossorigin="anonymous"></script>
+    <style>
+        .show{
+            width:30%;
+        }
+        .mystyle:link {
+            color: green;
+        }
+       .mystyle:visited {
+  color: green;
+}
+    button{
+        margin: 5px;
+    }
+
+    </style>
+</head>
+<body>
+     <center>
+    <h1>Profile ease</h1>>
+    <h1>Reddit API</h1>
+   
+   <h3>Link your account: </h3> <a target="_blank" id='linkReddit' rel="noopener noreferrer" href=''>Link your Reddit Account here</a><br>
+  <!--   <h1>Step 2 : </h1> <button type="button" id="generate">One Time Access Token Generation</button><br> -->
+  
+  <div>
+    <br>
+  <button type="button" class="btn btn-primary" type="button" id="fetchData">Fetch User Data</button><br>
+  
+  <p id = "userInfo" margin = "5px"></p> 
+  
+  <button type="button" class="btn btn-primary" id = "getTop">Get Top Posts</button>
+  <!-- <button type="button" class="btn btn-primary" id = "getNew">Get New Posts</button> -->
+  <button type="button" class="btn btn-primary" id = "getMessages">Get Messages</button>
+  </div>
+  <div id = "getMsg"></div>
+<button type="button" id="stop">Stop Sending Backend Requests</button><br>
+<button type="button" id="resetEverything">Reset Everything</button><br>
+</center>
+       <div id="output" ></div>
+<script>
+
+    function resetEverything(e) {
+        localStorage.clear()
+        window.location.reload()
+    }
+
+
+    function makestate(length) {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+    let state = localStorage.getItem('state');
+
+    if(localStorage.getItem('state')=== null) {
+       state = makestate(10); 
+       localStorage.setItem('state',state);
+
+    }
+
+
+
+	let string = `https://www.reddit.com/api/v1/authorize.compact?client_id=I5i7_z3rTN-JJA&response_type=code&state=${state}&redirect_uri=https://freereddittesting.000webhostapp.com%2F&duration=permanent&scope=identity,mysubreddits,privatemessages,read,report,save,submit,subscribe,vote,wikiedit,wikiread%20account%20creddits%20edit%20read%20submit`
+    let Client_ID = 'gPiZw9dut5OhHQ'
+    let Client_secret = 'Mtfad1S5U79-SPOq3po6X1aP6ZE'
+    let code = localStorage.getItem('code')
+    let redirect_uri = 'https://freereddittesting.000webhostapp.com/'
+    let grant_type = 'authorization_code'
+    let access_token
+  /*  document.getElementById('generate').addEventListener('click',generate)*/
+    document.getElementById('fetchData').addEventListener('click',fetchdata)
+    document.getElementById('getTop').addEventListener('click', getTopPosts)
+    // document.getElementById('getNew').addEventListener('click', getNewPosts)
+    document.getElementById('getMessages').addEventListener('click', getMessages)
+    setInterval(refresh, 1200000)
+    document.getElementById('resetEverything').addEventListener('click',resetEverything)
+     document.getElementById('linkReddit').href = string
+      if(!(localStorage.getItem('code')=== null)) {
+          document.getElementById('linkReddit').innerHTML = "Reddit Linked"
+      document.getElementById('linkReddit').href = "#"
+        document.getElementById('linkReddit').target = ''
+  document.getElementById('linkReddit').classList.add("mystyle");
+
+
+       }
+
+    let first = true;
+    
+    
+    async function handleWait(e) {
+
+
+        setTimeout(async ()=>{ 
+    
+         await fetch('https://corsanywhereintwiff.herokuapp.com/https://freereddittesting.000webhostapp.com/api/?state='+localStorage.getItem('state'),{
+            method: 'GET'
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data)
+            if(data.success) {
+                waitTime = false;
+    clearInterval(handleWait);
+    localStorage.setItem('code',data.code)
+     document.getElementById('linkReddit').innerHTML = "Reddit Linked"
+      document.getElementById('linkReddit').href = "#"
+    generate()
+            }
+         /*   var output = `<p>User Name- ${data.displayName} </p><br>
+                            <p>User Id- ${data.userId}</p><br>`
+            if(data.statusMessage){
+                output +=`<p>Status Message- ${data.statusMessage}</p>`
+            }
+            document.getElementById('output').innerHTML += output
+            let imgurl = data.pictureUrl
+            if(imgurl){
+                let Img = document.createElement('img')
+                Img.setAttribute('src',`${imgurl}`)
+                Img.classList.add('.show')
+                document.querySelector('#output').appendChild(Img)
+           
+            }*/
+            
+            })
+            
+        .catch((err) => console.log(err)) 
+
+
+
+        }, 10000);
+    
+          
+       
+         
+       //fetch friendship status
+    
+    }
+
+        async function generate(){
+            if(first) {
+              console.log("One Time Access Token & Refresh Token Requesting")   
+           
+           let data = {
+               'grant_type' : grant_type,
+               'code' : localStorage.getItem('code'),
+               'redirect_uri' : redirect_uri,
+
+           };
+
+           var config = {
+             'method': 'POST',
+             'url': 'https://www.reddit.com/api/v1/access_token',
+             'headers': {
+                //'user-agent': 'web:ReddtiAPITesting:v1.2.3 (by /u/Electrical-Visit7935)',
+                //'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                'Authorization' : 'Basic ' + btoa(unescape(encodeURIComponent('I5i7_z3rTN-JJA' + ':' + 'KeCHHs9YIiO1XevaWP5OkZNMx1M')))
+              },
+             'data' : Qs.stringify(data)
+           };
+
+            first = false;
+            //refresh access token    
+            await axios(config)
+            .then((resp) => {
+                console.log(resp.data)
+                if(resp.data.access_token) {
+                      access_token = resp.data.access_token
+                 refresh_token = resp.data.refresh_token
+                 localStorage.setItem('access_token', resp.data.access_token)
+                localStorage.setItem('refresh_token', resp.data.refresh_token)
+                console.log("Refresh Tokens & Access Tokens Recieved. You can Fetch Data Now")
+                
+                }
+
+                 
+            })
+            .catch((err) => console.log(err))
+
+            //fetch user profile data
+            // console.log('User Profile');
+          //  let promise = fetchdata(Client_ID,Client_secret,code,redirect_uri,grant_type,access_token)
+            }
+            else {
+                console.log("causing multiple calls");
+            }
+         
+        }
+
+        async function refresh(e) {
+            //e.preventDefault()
+             let data = {
+               'grant_type' : 'refresh_token',
+               "refresh_token" : localStorage.getItem('refresh_token')
+
+           };
+
+           let config = {
+             'method': 'POST',
+             'url': 'https://www.reddit.com/api/v1/access_token',
+             'headers': {
+                //'user-agent': 'web:ReddtiAPITesting:v1.2.3 (by /u/Electrical-Visit7935)',
+                //'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                'Authorization' : 'Basic ' + btoa(unescape(encodeURIComponent('I5i7_z3rTN-JJA' + ':' + 'KeCHHs9YIiO1XevaWP5OkZNMx1M')))
+              },
+             'data' : Qs.stringify(data)
+           };
+
+            first = false;
+            //refresh access token    
+           axios(config)
+            .then((resp) => {
+                console.log(resp)
+                if(resp.data.access_token) {
+                      access_token = resp.data.access_token
+                 localStorage.setItem('access_token', resp.data.access_token)
+                alert("Token Refreshed");
+                }
+
+                 
+            })
+            .catch((err) => console.log(err))
+
+        }
+    
+        async function fetchdata(e){
+             e.preventDefault()
+        
+            await fetch('https://oauth.reddit.com/api/v1/me',{
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': 'Bearer '+ localStorage.getItem('access_token')
+            }
+        })
+        .then((res) => res.json()
+        .then((data) => {
+            console.log("Requested Data : ");
+            console.log(data);
+            document.getElementById("userInfo").innerHTML = `<img src=${data.icon_img} width = "27px" height = "27px"></img>`+" | "+"Name:" +data.name + " | "+" Karma Points:" + data.total_karma + " | " +"Gold credits:"+ data.gold_creddits+ " | " +"Subreddit Type:"+ data.subreddit.subreddit_type+ " | "+"Verified:"+ data.verified; 
+            }))
+            
+        .catch((err) => console.log(err))
+       //fetch friendship status 
+       
+        }
+        // async function getNewPosts(e){
+        //     e.preventDefault()
+        //     await fetch('https://oauth.reddit.com/r/memes/new',{
+        //     method: 'GET',
+        //     headers: {
+        //         'Content-Type' : 'application/json',
+        //         'Authorization': 'Bearer '+ localStorage.getItem('access_token')
+        //     }
+        // })
+        // .then((res) => res.json())
+        // .then((data) => {
+        //     console.log("New posts: ", data.data.children);
+        //     let meme = data.data.children;
+        //         let output = '<h1>New Posts</h1>'
+        //         meme.forEach(function(element){
+        //             output += `
+        //                 <div>
+        //                     <h4>${element.data.title}</h4>
+        //                     <img src=${element.data.url} width="200" height = "200"></img>
+        //                 </div>
+        //             `
+        //         });
+        //         document.getElementById('getMsg').innerHTML = output;
+
+        //     })
+        // .catch((err) => console.log(err))
+        // }
+
+        async function getTopPosts(e){
+            e.preventDefault()
+            await fetch('https://oauth.reddit.com/best',{
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': 'Bearer '+ localStorage.getItem('access_token')
+            }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("Hot posts: ", data.data.children);
+            let meme = data.data.children;
+                let output = '<h1>Top Posts</h1>'
+                meme.forEach(function(element){
+                    var urlType = element.data.url.split(".").splice(-1);
+                    if(urlType == "jpg" || urlType == "png" || urlType == "jpeg"){
+                    output += `
+                        <div class="box">
+                            <h4>${element.data.title}</h4>
+                            <p>Subreddit: (${element.data.subreddit})</p>
+                            <img src=${element.data.url} width="200" height = "200"></img>
+                        </div>
+                    `
+                    }
+                    else if(urlType == "html"){
+                        output += `
+                        <div>
+                            <h2>${element.data.title}</h2>
+                            <p>Subreddit: (${element.data.subreddit})</p>
+                            <a target="_blank" href=${element.data.url}> <h4>Click here for Associated Link</h4></a>
+                        </div>
+                    `
+                    }
+
+                });
+                document.getElementById('getMsg').innerHTML = output;
+
+            })
+        .catch((err) => console.log(err))
+        }
+
+        async function getMessages(e){
+            e.preventDefault()
+            await fetch('https://oauth.reddit.com/message/inbox',{
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': 'Bearer '+ localStorage.getItem('access_token')
+            }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("Messages: ", data.data.children);
+            let meme = data.data.children;
+                let output = '<h1>Your messages</h1>'
+                meme.forEach(function(element){
+                    output += `
+                        <div>
+                            <h4>${element.data.subject}</h4>
+                            <p><b>Sender: ${element.data.author}</b></p>
+                            <p>${element.data.body}</p>
+                        </div>
+                    `
+                });
+                document.getElementById('getMsg').innerHTML = output;
+
+            })
+        .catch((err) => console.log(err))
+        }
+
+       
+    document.getElementById('linkReddit').addEventListener('click',handleWait)
+        
+    </script>
+</body>
+</html>
