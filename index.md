@@ -107,5 +107,103 @@ GET https://oauth.reddit.com/best
 
 
 
+## Twitter
 
- 
+We looked into what people are doing on twitter the most & condensed it down to 4 functions
+
+#### Searching tweet
+
+ ```
+GET https://api.twitter.com/1.1/search/tweets.json
+
+```
+
+##### Resource Information
+             	
+| Response formats | JSON |
+| Requires authentication? |	Yes |
+| Rate limited?	| Yes |
+| Requests / 15-min window (user auth)	| 180 |
+| Requests / 15-min window (app auth) |	450 |
+
+##### Parameters
+
+| Name		        	| Required             | Description              |
+|---------------	|---------------------	| ------------------------ |
+| q	| required | A UTF-8, URL-encoded search query |
+| count	| optional | The number of tweets to return per page |
+
+
+#### Posting tweet
+
+```
+POST https://api.twitter.com/1.1/statuses/update.json
+
+```
+
+##### Resource Information
+             	
+| Response formats | JSON |
+| Requires authentication? |	Yes (user context only) |
+| Rate limited?	| Yes |
+| Requests / 3-hour window	| 300* per user; 300* per app |
+
+##### Parameters
+
+| Name		        	| Required             | Description              |
+|---------------	|---------------------	| ------------------------ |
+| status |	required | The text of the status update |
+
+
+#### Searching profile 
+
+```
+GET https://api.twitter.com/1.1/users/search.json
+
+```
+
+##### Resource Information
+             	
+| Response formats | JSON |
+| Requires authentication? |	Yes (user context only) |
+| Rate limited?	| Yes |
+| Requests / 15-min window (user auth)	| 900 |
+
+##### Parameters
+
+| Name		        	| Required             | Description              |
+|---------------	|---------------------	| ------------------------ |
+| q	| required | The search query to run against people search. |
+| count |	optional | The number of potential user results to retrieve per page. This value has a maximum of 20. |
+
+#### Following user
+
+```
+POST https://api.twitter.com/1.1/friendships/create.json
+
+```
+
+##### Resource Information
+
+| Response formats |	JSON |
+| Requires authentication?	| Yes (user context only) |
+| Rate limited?	| Yes |
+| Requests / 24-hour window	| 400 per user; 1000 per app |
+
+##### Parameters
+
+| Name		        	| Required             | Description              |
+|---------------	|---------------------	| ------------------------ |
+| screen_name	| optional	| The screen name of the user to follow. |
+
+
+
+
+
+
+
+
+
+
+
+
